@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
+import BookmarksContext from './BookmarksContext';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
 
-const bookmarks = [
+//const bookmarks = [
   // {
   //   id: 0,
   //   title: 'Google',
@@ -28,11 +29,12 @@ const bookmarks = [
   //   rating: '4',
   //   desc: 'brings together the world\'s largest community of developers.'
   // }
-];
+//];
 
 class App extends Component {
   state = {
-    bookmarks,
+    //bookmarks,
+    bookmarks: [],
     error: null,
   };
 
@@ -47,6 +49,15 @@ class App extends Component {
   addBookmark = bookmark => {
     this.setState({
       bookmarks: [ ...this.state.bookmarks, bookmark ],
+    })
+  }
+
+  deleteBookmark = bookmarkId => {
+    const newBookmarks = this.state.bookmarks.filter(bm =>
+      bm.id !== bookmarkId  
+    )
+    this.setState({
+      bookmarks: newBookmarks
     })
   }
 
@@ -69,33 +80,72 @@ class App extends Component {
   }
 
   render() {
-    const { bookmarks } = this.state
+    //const { bookmarks } = this.state
+    const contextValue = {
+      bookmarks: this.state.bookmarks,
+      addBookmark: this.addBookmark,
+      deleteBookmark: this.deleteBookmark,
+    }
     return (
       <main className='App'>
         <h1>Bookmarks!</h1>
-        <Nav />
-        <div className='content' aria-live='polite'>
+        {/*<Nav /> */}
+        {/*<div className='content' aria-live='polite'> */}
+        <BookmarksContext.Provider value={contextValue}>
+          <Nav />
+          <div className='content' aria-live='polite'>
           <Route 
             path='/add-bookmark'
-            render={({ history }) => {
-              return <AddBookmark 
-              onAddBookmark={this.addBookmark}
-              onClickCancel={() => history.push('/')}
+            //render={({ history }) => {
+              //return <AddBookmark 
+              //onAddBookmark={this.addBookmark}
+              //onClickCancel={() => history.push('/')}
+              component={AddBookmark}
               />
-            }}
-          />
+           
           <Route 
           exact path='/'
-          render={() => 
-          <BookmarkList 
-          bookmarks={bookmarks}
+          //render={() => 
+          //<BookmarkList 
+          //bookmarks={bookmarks}
+          component={BookmarkList}
           />
-          }
-          />
+          
         </div>
+        </BookmarksContext.Provider>
+        {/*</div> */}
       </main>
     );
   }
 }
 
 export default App;
+
+/*Updating context with API data (#2) ===== */
+
+/*Refactor the bookmarks app to use context */
+//Swapped the state of bookmarks for context (Lines: 5, 37, 75-78, 84-86, 104, 105)
+//render method inside App is using render prop on each Route
+//..so that props can be specified on the AddBookmark & BookmarkList component instances
+
+/*Updating context with API data (#3 ) ===== */
+
+/*Refactor the bookmarks app to use context */
+//We can use context inside of these components instead of expecting props 
+//So let's swap the render callback prop 
+//For the more simple component approach to routing (Lines: 93 & 102)
+//A the App component is using state to store the bookmarks 
+//And we're populating the context from the state 
+// We don't need to make anymore changes to the App component 
+// App.js ===> BookmarkList.js
+
+/*Updating context with API data (#6) FINAL STEP ===== */
+
+/*Implementing th delete button*/
+//Delete button is working 
+//But we have a copy of the bookmarks in an array in state 
+//We also need to remote the deleted bookmark from bookmarks array in state
+//This is where context.deleteBookmark callback comes in 
+//Implement the function to remove a bookmark from state (Lines: 55-62)
+//Add the implementation to override the empty deleteBookmark function that's in context (Line: 87)
+//And now everything is working completely 

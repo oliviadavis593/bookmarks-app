@@ -1,16 +1,18 @@
 import React, { Component } from  'react';
 import config from '../config'
 import './AddBookmark.css';
-import { withRouter } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
+import BookmarksContext from '../BookmarksContext';
 
 const Required = () => (
   <span className='AddBookmark__required'>*</span>
 )
 
 class AddBookmark extends Component {
-  static defaultProps = {
-    onAddBookmark: () => {}
-  };
+  //static defaultProps = {
+    //onAddBookmark: () => {}
+  //};
+  static contextType = BookmarksContext;
 
   state = {
     error: null,
@@ -50,17 +52,22 @@ class AddBookmark extends Component {
         url.value = ''
         description.value = ''
         rating.value = ''
+        this.context.addBookmark(data)
         this.props.history.push('/')
-        this.props.onAddBookmark(data)
+        //this.props.onAddBookmark(data)
       })
       .catch(error => {
         this.setState({ error })
       })
   }
 
+  handleClickCancel = () => {
+    this.props.history.push('/')
+  };
+
   render() {
     const { error } = this.state
-    const { onClickCancel } = this.props
+    //const { onClickCancel } = this.props
     return (
       <section className='AddBookmark'>
         <h2>Create a bookmark</h2>
@@ -125,7 +132,8 @@ class AddBookmark extends Component {
             />
           </div>
           <div className='AddBookmark__buttons'>
-            <button type='button' onClick={onClickCancel}>
+            {/*<button type='button' onClick={onClickCancel}>*/}
+            <button type='button' onClick={this.handleClickCancel}>
               Cancel
             </button>
             {' '}
@@ -139,4 +147,19 @@ class AddBookmark extends Component {
   }
 }
 
-export default withRouter(AddBookmark);
+export default AddBookmark;
+
+
+/*Updating context with API data (#4 ) ===== */
+
+/*Refactor the bookmarks app to use context = FINAL */
+//Steps:
+//We don't need the withRouter anymore 
+//Because the AddBookmark is passed to the component prop of Route 
+//Which gives it history as prop
+//We'll swap props.onAddBookmark for context.addBookmark
+//We'll implemnet cancel button directly inside this component 
+//Instead of accepting an onClickCancel prop 
+//That's it for refactoring 
+//We've swapped teh prop-drilling for context to provide the data from the API response
+//AddBookmark.js ===> BookmarkItem.js
