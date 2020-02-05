@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import AddBookmark from './AddBookmark/AddBookmark';
 import BookmarkList from './BookmarkList/BookmarkList';
 import BookmarksContext from './BookmarksContext';
+import Rating from './Rating/Rating';
 import Nav from './Nav/Nav';
 import config from './config';
 import './App.css';
@@ -114,6 +115,7 @@ class App extends Component {
         </div>
         </BookmarksContext.Provider>
         {/*</div> */}
+        <Rating />
       </main>
     );
   }
@@ -149,3 +151,24 @@ export default App;
 //Implement the function to remove a bookmark from state (Lines: 55-62)
 //Add the implementation to override the empty deleteBookmark function that's in context (Line: 87)
 //And now everything is working completely 
+
+//PropTypes (#2)
+//Testing Solution:
+//Place a value that isn't a number value inside the Rating component (Lines: 118)
+//In browser console tab = warning produced because we passed a string instead of a number
+//If you change string to a number = warning disappears 
+//If you don't have a value at all = warning is still not present 
+//This is because we didn't specify that this prop was required
+//Fix: 
+//Add isRequired validator - chaining to the PropTypes validator (Rating.js)
+
+//PropTypes (#3)
+//PropTypes.number & PropTypes.isRequired are examples of validators 
+//Some of the other primititve validators provided by PropTypes:
+/*
+- PropTypes.array - optional array 
+- PropTypes.book - optional boolean value (true, false)
+- PropTypes.func - optional function
+- PropTypes.object - optional object
+- PropTypes.string - optional String
+*/

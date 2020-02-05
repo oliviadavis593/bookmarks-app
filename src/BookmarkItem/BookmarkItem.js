@@ -86,4 +86,4 @@ BookmarkItem.defaultProps = {
 //That's it for the BookmarkItem component 
 //It'll also be completely woeking at this point to delete a bookmark
 //Only problem = is that we have a copy of the bookmarks in an array in state
-//BookmarkItem ===> App.js
+//BookmarkItem ===> App.js 
