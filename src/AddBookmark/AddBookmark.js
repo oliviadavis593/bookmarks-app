@@ -3,6 +3,7 @@ import config from '../config'
 import './AddBookmark.css';
 //import { withRouter } from 'react-router-dom';
 import BookmarksContext from '../BookmarksContext';
+import PropTypes from 'prop-types';
 
 const Required = () => (
   <span className='AddBookmark__required'>*</span>
@@ -147,6 +148,18 @@ class AddBookmark extends Component {
   }
 }
 
+AddBookmark.propTypes = {
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  rating: PropTypes.number,
+  description: PropTypes.string
+}
+
+AddBookmark.defaultProps = {
+  rating: 1, 
+  description: ''
+};
+
 export default AddBookmark;
 
 
@@ -163,3 +176,9 @@ export default AddBookmark;
 //That's it for refactoring 
 //We've swapped teh prop-drilling for context to provide the data from the API response
 //AddBookmark.js ===> BookmarkItem.js
+
+//DefaultProps (#2)
+//Bookmark components is more involved that the Rating component (expecting 4 props instead of 1)
+//We can add PropTypes to AddBookmark component to ensure that these rules are followed (Lines: 151-156)
+//We can also add the defaultProps as well (Lines:158-161)
+//AddBookMark.js ===> BookMarkList.js

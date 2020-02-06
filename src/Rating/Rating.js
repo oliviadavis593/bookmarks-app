@@ -46,3 +46,4 @@ Rating.propTypes = {
 //We can add a defaultProps property to Rating component & set value to 1
 // Now even if parent invokes the component with no value like this: <Rating />
 //It will automatically  be assigned the value 1 
+//Rating.js ===> AddBookMmark.js
