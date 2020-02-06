@@ -15,6 +15,10 @@ export default function Rating(props) {
   );
 }
 
+Rating.defaultProps = {
+  value: 1
+}
+
 Rating.propTypes = {
   value: PropTypes.number.isRequired
 };
@@ -36,3 +40,9 @@ Rating.propTypes = {
 //Make sure that the value prop is a number (Line: 19)
 //Rating.js ===> App.js
 
+//DefaultProps (#1)
+//Default props are evaluated before PropTypes 
+//So the value prvided by the defaultProps are type checked by PropTypes
+//We can add a defaultProps property to Rating component & set value to 1
+// Now even if parent invokes the component with no value like this: <Rating />
+//It will automatically  be assigned the value 1 
