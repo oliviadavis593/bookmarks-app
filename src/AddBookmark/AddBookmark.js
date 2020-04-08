@@ -1,7 +1,6 @@
 import React, { Component } from  'react';
 import config from '../config'
 import './AddBookmark.css';
-//import { withRouter } from 'react-router-dom';
 import BookmarksContext from '../BookmarksContext';
 import PropTypes from 'prop-types';
 
@@ -10,9 +9,7 @@ const Required = () => (
 )
 
 class AddBookmark extends Component {
-  //static defaultProps = {
-    //onAddBookmark: () => {}
-  //};
+
   static contextType = BookmarksContext;
 
   state = {
